@@ -2,7 +2,7 @@
 
 | Layer     | Technology                              |
 |-----------|-----------------------------------------|
-| Frontend  | HTML, CSS, JavaScript, Bootstrap 5      |
+| Frontend  | React 18 (Vite), JavaScript, Bootstrap 5 |
 | Backend   | Java 17, Spring Boot 3.2 (REST API)     |
 | Database  | MySQL 8                                 |
 | Build     | Maven                                   |
@@ -20,20 +20,32 @@
 ## Prerequisites
 - JDK 17+  (`java -version`)
 - Maven 3.8+  (`mvn -version`)
+- Node.js 18+ and npm  (`node -v`) for the React frontend
 - MySQL 8 running on port 3306
 - VS Code with **Extension Pack for Java** and **Spring Boot Extension Pack**
 
 ## Run it
-1. Open the `employee-management-system` folder in VS Code.
-2. Edit `src/main/resources/application.properties` and set your MySQL
-   `spring.datasource.username` and `spring.datasource.password`.
-   The database `employee_db` is created automatically.
-3. In the VS Code terminal:
-   ```
-   mvn spring-boot:run
-   ```
-   (or open `EmployeeManagementApplication.java` and click **Run**)
-4. Open http://localhost:8080
+
+**Backend** (Spring Boot + MySQL)
+1. Open the project folder in VS Code.
+2. Check the MySQL username/password in `src/main/resources/application.properties`.
+3. In a terminal: `mvn spring-boot:run`  (API on http://localhost:8080)
+
+**Frontend - development mode** (hot reload)
+```
+cd frontend
+npm install
+npm run dev
+```
+Open http://localhost:5173 . API calls are forwarded to the backend on port 8080.
+
+**Frontend - single app on port 8080**
+```
+cd frontend
+npm install
+npm run build
+```
+This compiles React into `src/main/resources/static`. Restart the backend and open http://localhost:8080 .
 
 On the first start, 5 departments and 10 sample employees are added so you can try everything immediately.
 
@@ -75,7 +87,12 @@ src/main/java/com/company/ems
   config/       DataSeeder (sample data)
 src/main/resources
   application.properties
-  static/       index.html, css/style.css, js/app.js   (served by Spring Boot)
+  static/       React build output (created by `npm run build`, served by Spring Boot)
+frontend/
+  src/pages/        Dashboard, Employees, Departments
+  src/components/   Modals, Avatar, StatusBadge, LivePill, Toasts
+  src/api.js        REST client
+  vite.config.js    Build + dev proxy settings
 database/schema.sql   Reference schema
 ```
 

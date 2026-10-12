@@ -1,12 +1,10 @@
 # Deploy: GitHub -> Render (app) + Aiven (MySQL)
 
-1. Push this project to a GitHub repository (the folder that contains pom.xml must be the repo root).
-2. Create a free MySQL service at https://console.aiven.io and wait until it is "Running".
-   Build the JDBC URL from the *Host* and *MySQL port* shown (NOT the X-protocol port, NOT the "Service URI"):
-   jdbc:mysql://HOST:PORT/defaultdb?sslMode=REQUIRED
-3. Render dashboard -> New -> Web Service -> pick your repo. Runtime: Docker. Instance type: Free.
-4. Add environment variables:
-   DB_URL       = jdbc:mysql://HOST:PORT/defaultdb?sslMode=REQUIRED
-   DB_USERNAME  = (Aiven user, usually avnadmin)
-   DB_PASSWORD  = (Aiven password)
-5. Create Web Service. First build takes several minutes. You get https://your-name.onrender.com
+The Dockerfile builds the React frontend, then the Spring Boot jar, and serves both from one link.
+
+1. Push this project to GitHub (pom.xml, Dockerfile, src/ and frontend/ at the repo root).
+2. Aiven MySQL -> JDBC URL: jdbc:mysql://HOST:PORT/defaultdb?sslMode=REQUIRED
+3. Render -> New -> Web Service -> pick the repo. Runtime: Docker. Instance type: Free.
+4. Environment variables:
+   DB_URL, DB_USERNAME, DB_PASSWORD
+5. Deploy. First build takes longer than before (it also runs npm install + vite build).
